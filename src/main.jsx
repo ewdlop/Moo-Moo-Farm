@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import React, { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
+import { CowModel } from './cow.jsx'
 
 function Box(props) {
   // This reference will give us direct access to the mesh
@@ -31,5 +32,6 @@ createRoot(document.getElementById('root')).render(
     <pointLight position={[10, 10, 10]} />
     <Box position={[-1.2, 0, 0]} />
     <Box position={[1.2, 0, 0]} />
+    <CowModel/>
   </Canvas>,
 )
