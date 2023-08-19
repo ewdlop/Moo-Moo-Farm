@@ -4,6 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { CowModel } from './cow.jsx'
 import { OrbitControls } from '@react-three/drei'
 import FreeCamera from './camera.jsx'
+import { Grass } from './grass.jsx'
 
 createRoot(document.getElementById('root')).render(
   <Canvas style={{ width: '100%', height: '100vh' }}>
@@ -12,5 +13,6 @@ createRoot(document.getElementById('root')).render(
     <ambientLight />
     <pointLight position={[10, 10, 10]} />
     <CowModel/>
+    <Grass rotationX={Math.PI/2}/>
   </Canvas>,
 )
