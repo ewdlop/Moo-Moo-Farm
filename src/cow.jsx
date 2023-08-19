@@ -41,13 +41,13 @@ export const CowModel = (props) => {
           material={materials.pink}
         />
       </group>
-      <mesh
+      {/* <mesh
         castShadow
         receiveShadow
         geometry={nodes.平面.geometry}
         material={materials["マテリアル.002"]}
         scale={6.088}
-      />
+      /> */}
     </group>
   );
 }
