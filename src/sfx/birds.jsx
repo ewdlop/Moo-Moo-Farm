@@ -10,7 +10,7 @@ export default function Birds() {
     loader.load('/musics/Ambience_Place_Forest_Birds_Loop.wav', (buffer) => {
       sound.current.setBuffer(buffer);
       sound.current.setLoop(true);
-      sound.current.setVolume(1);
+      sound.current.setVolume(0.5);
       sound.current.play();
     });
   }, []);

@@ -11,23 +11,30 @@ import { extend } from '@react-three/fiber'
 
 const noise2D = createNoise2D();
 
-
-function GroundMesh({ groundGeo }) {
-
-  const meshRef = useRef();
-
-  useLayoutEffect(() => {
-    meshRef.current.lookAt(new THREE.Vector3(0, 1, 0));
-  }, []);
-
-
+function GroundMesh() {
   return (
-    <mesh ref={meshRef} position={[0, -5, 0]} geometry={groundGeo}>
+    <mesh position={[0, -5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={[100, 100, 32, 32]} />
       <meshStandardMaterial color="#556644" />
     </mesh>
   );
 }
 
+// function GroundMesh({ groundGeo }) {
+
+//   const meshRef = useRef();
+
+//   useLayoutEffect(() => {
+//     meshRef.current.lookAt(new THREE.Vector3(0, 1, 0));
+//   }, []);
+
+
+//   return (
+//     <mesh ref={meshRef} position={[0, -5, 0]} geometry={groundGeo}>
+//       <meshStandardMaterial color="#556644" />
+//     </mesh>
+//   );
+// }
 function createGroundGeometry(width) {
   const plane = new THREE.PlaneGeometry(width, width, 32, 32);
   const positions = plane.attributes.position.array;
@@ -47,6 +54,18 @@ function createGroundGeometry(width) {
   return geo;
 }
 
+function GrassPieceGround({ offsets }) {
+  return (
+    <mesh>
+      <instancedBufferGeometry>
+        <planeGeometry args={[0.2, 0.2]} />
+        <instancedBufferAttribute attachObject={['attributes', 'instanceOffset']} args={[offsets, 3]} />
+      </instancedBufferGeometry>
+      <meshStandardMaterial color="#556644" />
+    </mesh>
+  );
+}
+
 export default function Grass({ options = { bW: 0.12, bH: 1, joints: 5 }, width = 100, instances = 50000, ...props }) {
   const { bW, bH, joints } = options
   const materialRef = useRef()
@@ -57,6 +76,7 @@ export default function Grass({ options = { bW: 0.12, bH: 1, joints: 5 }, width 
   useFrame((state) => (materialRef.current.uniforms.time.value = state.clock.elapsedTime / 4))
   return (
     <group {...props}>
+      <GrassPieceGround offsets={attributeData.offsets} />
       <mesh>
         <instancedBufferGeometry index={baseGeom.index} attributes-position={baseGeom.attributes.position} attributes-uv={baseGeom.attributes.uv}>
           <instancedBufferAttribute attach="attributes-offset" args={[new Float32Array(attributeData.offsets), 3]} />
@@ -67,15 +87,16 @@ export default function Grass({ options = { bW: 0.12, bH: 1, joints: 5 }, width 
         </instancedBufferGeometry>
         <grassMaterial ref={materialRef} map={texture} alphaMap={alphaMap} toneMapped={false} />
       </mesh>
-      <GroundMesh groundGeo={groundGeo} />
+      <GroundMesh/>
     </group>
+    
   )
 }
 
 extend({ Grass });
 
 function getAttributeData(instances, width) {
-  const offsets = []
+  const tempOffsets = [];
   const orientations = []
   const stretches = []
   const halfRootAngleSin = []
@@ -94,7 +115,7 @@ function getAttributeData(instances, width) {
     const offsetX = Math.random() * width - width / 2
     const offsetZ = Math.random() * width - width / 2
     const offsetY = getYPosition(offsetX, offsetZ)
-    offsets.push(offsetX, offsetY, offsetZ)
+    tempOffsets.push(offsetX, offsetY, offsetZ)
 
     //Define random growth directions
     //Rotate around Y
@@ -141,8 +162,11 @@ function getAttributeData(instances, width) {
     } else {
       stretches.push(Math.random())
     }
-  }
 
+      // Now convert the standard array to Float32Array
+
+  }
+  const offsets = new Float32Array(tempOffsets);
   return {
     offsets,
     orientations,
