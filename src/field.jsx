@@ -26,7 +26,7 @@ function GrassMaterial() {
   );
 }
 
-export const Grass = ({ rotationX = 0, rotationY = 0, rotationZ = 0 }) => {
+const Field = ({ rotationX = 0, rotationY = 0, rotationZ = 0 }) => {
   const meshRef = useRef();
 
   useFrame(() => {
@@ -44,3 +44,5 @@ export const Grass = ({ rotationX = 0, rotationY = 0, rotationZ = 0 }) => {
     </mesh>
   );
 };
+
+export default Field;

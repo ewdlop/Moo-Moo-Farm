@@ -9,3 +9,4 @@ Currently, two official plugins are available:
 
 # Moo Moo
 ![alt text](Moo.png)
+![alt text](Moo2.png)
