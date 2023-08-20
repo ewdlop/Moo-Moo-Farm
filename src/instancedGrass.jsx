@@ -7,7 +7,7 @@ import { extend } from '@react-three/fiber'
 import { getYPositionSimplex2DNoise,multiplyQuaternions } from "./math"
 import "./shaders/grassMaterial"
 
-export const InstancedGrass = ({ options = { bW: 0.12, bH: 1, joints: 5 }, width = 100, instances = 50000, ...props }) => {
+export const InstancedGrass = ({ options = { bW: 0.12, bH: 1, joints: 5 }, width = 100, instances = 100000, ...props }) => {
     const { bW, bH, joints } = options
     const materialRef = useRef()
     const [texture, alphaMap] = useLoader(THREE.TextureLoader, [bladeDiffuse, bladeAlpha])

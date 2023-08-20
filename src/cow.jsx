@@ -13,7 +13,7 @@ export const CowModel = (props) => {
   }, []);
   return (
     <group {...props} dispose={null}>
-      <group scale={0.619}>
+      <group scale={1}>
         <mesh
           castShadow
           receiveShadow
