@@ -1,6 +1,6 @@
 // Based on https://codepen.io/al-ro/pen/jJJygQ by al-ro, but rewritten in react-three-fiber
 import * as THREE from "three"
-import React, { useRef, useMemo } from "react"
+import React, { useRef, useMemo, useLayoutEffect } from "react"
 import { createNoise2D } from 'simplex-noise';
 import { useFrame, useLoader } from "@react-three/fiber"
 //These have been taken from "Realistic real-time grass rendering" by Eddie Lee, 2010
@@ -11,30 +11,49 @@ import { extend } from '@react-three/fiber'
 
 const noise2D = createNoise2D();
 
+
+function GroundMesh({ groundGeo }) {
+
+  const meshRef = useRef();
+
+  useLayoutEffect(() => {
+    meshRef.current.lookAt(new THREE.Vector3(0, 1, 0));
+  }, []);
+
+
+  return (
+    <mesh ref={meshRef} position={[0, -5, 0]} geometry={groundGeo}>
+      <meshStandardMaterial color="#556644" />
+    </mesh>
+  );
+}
+
+function createGroundGeometry(width) {
+  const plane = new THREE.PlaneGeometry(width, width, 32, 32);
+  const positions = plane.attributes.position.array;
+  const geo = new THREE.BufferGeometry();
+
+  geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(positions), 3));
+
+  for (let i = 0; i < positions.length / 3; i++) {
+    const v = new THREE.Vector3(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+    //v.y = getYPosition(v.x, v.z);
+    v.y = 0.5 * v.x;
+    geo.getAttribute("position").setXYZ(i, v.x, v.y, v.z);
+  }
+
+  geo.computeVertexNormals();
+
+  return geo;
+}
+
 export default function Grass({ options = { bW: 0.12, bH: 1, joints: 5 }, width = 100, instances = 50000, ...props }) {
   const { bW, bH, joints } = options
   const materialRef = useRef()
   const [texture, alphaMap] = useLoader(THREE.TextureLoader, [bladeDiffuse, bladeAlpha])
   const attributeData = useMemo(() => getAttributeData(instances, width), [instances, width])
   const baseGeom = useMemo(() => new THREE.PlaneGeometry(bW, bH, 1, joints).translate(0, bH / 2, 0), [options])
-  const groundGeo = useMemo(() => {
-    const plane = new THREE.PlaneGeometry(width, width, 32, 32)
-
-    const positions = plane.attributes.position.array
-
-    const geo = new THREE.BufferGeometry()
-    geo.setAttribute("position", new THREE.BufferAttribute(positions.slice(0), 3)) // Copy the positions array
-
-    for (let i = 0; i < 4; i++) {
-      const v = new THREE.Vector3(positions[i * 3 + 0], positions[i * 3 + 1], positions[i * 3 + 2])
-
-      v.y = getYPosition(v.x, v.z)
-
-      geo.getAttribute("position").setXYZ(i, v.x, v.y, v.z)
-    }
-    geo.computeVertexNormals()
-    return geo
-  }, [width])
+  const groundGeo = useMemo(() => createGroundGeometry(width), [width]);
   useFrame((state) => (materialRef.current.uniforms.time.value = state.clock.elapsedTime / 4))
   return (
     <group {...props}>
@@ -48,9 +67,7 @@ export default function Grass({ options = { bW: 0.12, bH: 1, joints: 5 }, width 
         </instancedBufferGeometry>
         <grassMaterial ref={materialRef} map={texture} alphaMap={alphaMap} toneMapped={false} />
       </mesh>
-      <mesh position={[0, 0, 0]} geometry={groundGeo}>
-        <meshStandardMaterial color="#000f00" />
-      </mesh>
+      <GroundMesh groundGeo={groundGeo} />
     </group>
   )
 }
