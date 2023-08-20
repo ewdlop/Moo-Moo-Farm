@@ -52,7 +52,7 @@ const FreeCamera = (props) => {
   });
   
 
-    return <perspectiveCamera ref={cameraRef} {...props} />;
+    return <perspectiveCamera ref={cameraRef} {...props} fov={100} />;
 };
 
 export default FreeCamera;
