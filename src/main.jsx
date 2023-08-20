@@ -12,8 +12,8 @@ import Wind from './sfx/wind.jsx'
 createRoot(document.getElementById('root')).render(
   <Canvas shadows style={{ width: '100%', height: '100vh' }}>
     <Music/>
-    {/* <Birds/>
-    <Wind/> */}
+    <Birds/>
+    <Wind/>
     <FreeCamera position={[0, 1, 2]} />
     <OrbitControls />
     <ambientLight />
