@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import SimplexNoise from "simplex-noise"
 
 
 export function multiplyQuaternions(q1, q2) {
@@ -10,6 +11,7 @@ export function multiplyQuaternions(q1, q2) {
 }
 
 export function getYPositionSimplex2DNoise(x, z) {
+    const simplex = new SimplexNoise(Math.random)
     var y = 2 * simplex.noise2D(x / 50, z / 50)
     y += 4 * simplex.noise2D(x / 100, z / 100)
     y += 0.2 * simplex.noise2D(x / 10, z / 10)

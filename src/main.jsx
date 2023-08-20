@@ -5,6 +5,7 @@ import { CowModel } from './cow.jsx'
 import { OrbitControls, CameraShake, Stage } from '@react-three/drei'
 import FreeCamera from './camera.jsx'
 import { Grass } from './grass.jsx'
+import { instancedGrass } from './instancedGrass.jsx'
 
 createRoot(document.getElementById('root')).render(
   <Canvas shadows style={{ width: '100%', height: '100vh' }}>
@@ -15,7 +16,8 @@ createRoot(document.getElementById('root')).render(
     <Suspense fallback={null}>
       <Stage>
         <CowModel/>
-        <Grass rotationX={Math.PI/2}/>
+        {/* <Grass rotationX={Math.PI/2}/> */}
+        <instancedGrass/>
       </Stage>
     </Suspense>
     {/* <CameraShake

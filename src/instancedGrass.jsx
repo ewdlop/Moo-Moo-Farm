@@ -1,22 +1,56 @@
 import * as THREE from "three"
 import React, { useRef, useMemo } from "react"
-import SimplexNoise from "simplex-noise"
 import { useFrame, useLoader } from "@react-three/fiber"
-import bladeDiffuse from "./images/blade_diffuse.jpg"
-import bladeAlpha from "./images/blade_alpha.jpg"
+import bladeDiffuse from "/images/blade_diffuse.jpg"
+import bladeAlpha from "/images/blade_alpha.jpg"
+import { extend } from '@react-three/fiber'
 
-const simplex = new SimplexNoise(Math.random)
-
-export const Grass = ({ options = { bW: 0.12, bH: 1, joints: 5 }, width = 100, instances = 50000, ...props }) => {
+export const instancedGrass = ({ options = { bW: 0.12, bH: 1, joints: 5 }, width = 100, instances = 50000, ...props }) => {
     const { bW, bH, joints } = options
     const materialRef = useRef()
-    const [bladeDiffuseMap, bladeAlphaMap] = useLoader(THREE.TextureLoader, [bladeDiffuse, bladeAlpha])
+    const [texture, alphaMap] = useLoader(THREE.TextureLoader, [bladeDiffuse, bladeAlpha])
     const attributeData = useMemo(() => getAttributeData(instances, width), [instances, width])
-    const baseGeom = useMemo(() => new THREE.PlaneBufferGeometry(bW, bH, 1, joints).translate(0, bH / 2, 0), [options])
+    const baseGeom = useMemo(() => new THREE.BufferGeometry(bW, bH, 1, joints).translate(0, bH / 2, 0), [options])
+    const groundGeo = useMemo(() => {
+      const groundGeo = useMemo(() => {
+        const plane = new THREE.PlaneGeometry(width, width, 32, 32)
     
+        const positions = plane.attributes.position.array
+    
+        const geo = new THREE.BufferGeometry()
+        geo.setAttribute("position", new THREE.BufferAttribute(positions.slice(0), 3)) // Copy the positions array
+    
+        for (let i = 0; i < 4; i++) {
+          const v = new THREE.Vector3(positions[i * 3 + 0], positions[i * 3 + 1], positions[i * 3 + 2])
+    
+          v.y = getYPosition(v.x, v.z)
+    
+          geo.getAttribute("position").setXYZ(i, v.x, v.y, v.z)
+        }
+    
+        geo.computeVertexNormals()
+        geo.computeVertexNormals()
+        return geo
+      }, [width])
+    }, [width])
     useFrame((state) => (materialRef.current.uniforms.time.value = state.clock.elapsedTime / 4))
     return (
-        <div></div>)
+      <group {...props}>
+        <mesh>
+          <instancedBufferGeometry index={baseGeom.index} attributes-position={baseGeom.attributes.position} attributes-uv={baseGeom.attributes.uv}>
+            <instancedBufferAttribute attach="attributes-offset" args={[new Float32Array(attributeData.offsets), 3]} />
+            <instancedBufferAttribute attach="attributes-orientation" args={[new Float32Array(attributeData.orientations), 4]} />
+            <instancedBufferAttribute attach="attributes-stretch" args={[new Float32Array(attributeData.stretches), 1]} />
+            <instancedBufferAttribute attach="attributes-halfRootAngleSin" args={[new Float32Array(attributeData.halfRootAngleSin), 1]} />
+            <instancedBufferAttribute attach="attributes-halfRootAngleCos" args={[new Float32Array(attributeData.halfRootAngleCos), 1]} />
+          </instancedBufferGeometry>
+          <grassMaterial ref={materialRef} map={texture} alphaMap={alphaMap} toneMapped={false} />
+        </mesh>
+        <mesh position={[0, 0, 0]} geometry={groundGeo}>
+          <meshStandardMaterial color="#000f00" />
+        </mesh>
+      </group>
+    )
 }
 
 export function getAttributeData(instances, width) {
