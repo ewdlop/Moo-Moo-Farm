@@ -76,7 +76,7 @@ export default function Grass({ options = { bW: 0.12, bH: 1, joints: 5 }, width 
   useFrame((state) => (materialRef.current.uniforms.time.value = state.clock.elapsedTime / 4))
   return (
     <group {...props}>
-      <GrassPieceGround offsets={attributeData.offsets} />
+      {/* <GrassPieceGround offsets={attributeData.offsets} /> */}
       <mesh>
         <instancedBufferGeometry index={baseGeom.index} attributes-position={baseGeom.attributes.position} attributes-uv={baseGeom.attributes.uv}>
           <instancedBufferAttribute attach="attributes-offset" args={[new Float32Array(attributeData.offsets), 3]} />
