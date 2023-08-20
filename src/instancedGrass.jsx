@@ -4,34 +4,32 @@ import { useFrame, useLoader } from "@react-three/fiber"
 import bladeDiffuse from "/images/blade_diffuse.jpg"
 import bladeAlpha from "/images/blade_alpha.jpg"
 import { extend } from '@react-three/fiber'
+import { getYPositionSimplex2DNoise,multiplyQuaternions } from "./math"
+import "./shaders/grassMaterial"
 
-export const instancedGrass = ({ options = { bW: 0.12, bH: 1, joints: 5 }, width = 100, instances = 50000, ...props }) => {
+export const InstancedGrass = ({ options = { bW: 0.12, bH: 1, joints: 5 }, width = 100, instances = 50000, ...props }) => {
     const { bW, bH, joints } = options
     const materialRef = useRef()
     const [texture, alphaMap] = useLoader(THREE.TextureLoader, [bladeDiffuse, bladeAlpha])
     const attributeData = useMemo(() => getAttributeData(instances, width), [instances, width])
     const baseGeom = useMemo(() => new THREE.BufferGeometry(bW, bH, 1, joints).translate(0, bH / 2, 0), [options])
     const groundGeo = useMemo(() => {
-      const groundGeo = useMemo(() => {
-        const plane = new THREE.PlaneGeometry(width, width, 32, 32)
-    
-        const positions = plane.attributes.position.array
-    
-        const geo = new THREE.BufferGeometry()
-        geo.setAttribute("position", new THREE.BufferAttribute(positions.slice(0), 3)) // Copy the positions array
-    
-        for (let i = 0; i < 4; i++) {
-          const v = new THREE.Vector3(positions[i * 3 + 0], positions[i * 3 + 1], positions[i * 3 + 2])
-    
-          v.y = getYPosition(v.x, v.z)
-    
-          geo.getAttribute("position").setXYZ(i, v.x, v.y, v.z)
-        }
-    
-        geo.computeVertexNormals()
-        geo.computeVertexNormals()
-        return geo
-      }, [width])
+      const plane = new THREE.PlaneGeometry(width, width, 32, 32)
+  
+      const positions = plane.attributes.position.array
+  
+      const geo = new THREE.BufferGeometry()
+      geo.setAttribute("position", new THREE.BufferAttribute(positions.slice(0), 3)) // Copy the positions array
+  
+      for (let i = 0; i < 4; i++) {
+        const v = new THREE.Vector3(positions[i * 3 + 0], positions[i * 3 + 1], positions[i * 3 + 2])
+  
+        v.y = getYPositionSimplex2DNoise(v.x, v.z)
+  
+        geo.getAttribute("position").setXYZ(i, v.x, v.y, v.z)
+      }
+      geo.computeVertexNormals()
+      return geo
     }, [width])
     useFrame((state) => (materialRef.current.uniforms.time.value = state.clock.elapsedTime / 4))
     return (
@@ -52,6 +50,7 @@ export const instancedGrass = ({ options = { bW: 0.12, bH: 1, joints: 5 }, width
       </group>
     )
 }
+extend({ InstancedGrass });
 
 export function getAttributeData(instances, width) {
     const offsets = []
@@ -72,7 +71,7 @@ export function getAttributeData(instances, width) {
       //Offset of the roots
       const offsetX = Math.random() * width - width / 2
       const offsetZ = Math.random() * width - width / 2
-      const offsetY = getYPosition(offsetX, offsetZ)
+      const offsetY = getYPositionSimplex2DNoise(offsetX, offsetZ)
       offsets.push(offsetX, offsetY, offsetZ)
   
       //Define random growth directions

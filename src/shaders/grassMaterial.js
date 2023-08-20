@@ -121,7 +121,7 @@ const fragmentShader =  `
   }
 `;
 
-const grassMaterial = shaderMaterial(
+const GrassMaterial = shaderMaterial(
   uniforms,
   vertexShader,
   fragmentShader,
@@ -129,4 +129,4 @@ const grassMaterial = shaderMaterial(
     self.side = THREE.DoubleSide
   },
 );
-extend({ grassMaterial })
+extend({ GrassMaterial })
