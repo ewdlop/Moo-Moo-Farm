@@ -18,6 +18,7 @@ export default function SoundComponent() {
     const audioLoader = new AudioLoader();
     audioLoader.load('/musics/Cow_11.wav', (buffer) => {
       sound.setBuffer(buffer);
+      sound.current.setVolume(0.5);
     });
 
     // Random interval to play sound
