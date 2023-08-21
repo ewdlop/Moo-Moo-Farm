@@ -21,6 +21,7 @@ createRoot(document.getElementById('root')).render(
     <Suspense fallback={null}>
       <Stage>
         <CowModel/>
+        <CowModel position={[1,0,1]}/>
         <Grass/>
       </Stage>
     </Suspense>
