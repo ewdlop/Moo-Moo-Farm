@@ -8,12 +8,14 @@ import Grass from  './instancedGrass2.jsx'
 import Music from './music/music.jsx'
 import Birds from './sfx/birds.jsx'
 import Wind from './sfx/wind.jsx'
+import SoundComponent from './sfx/soundComponent.jsx'
 
 createRoot(document.getElementById('root')).render(
   <Canvas shadows style={{ width: '100%', height: '100vh' }}>
     <Music/>
     <Birds/>
     <Wind/>
+    <SoundComponent/>
     <FreeCamera position={[0, 1, 2]} />
     <OrbitControls />
     <ambientLight />
