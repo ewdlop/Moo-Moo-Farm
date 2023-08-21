@@ -54,12 +54,15 @@ function createGroundGeometry(width) {
   return geo;
 }
 
-function GrassPieceGround({ offsets }) {
+function GrassPieceGround({ position, index, offsets, orientations, uv }) {
+  const instanceCount = offsets.length / 3;
+
   return (
     <mesh>
-      <instancedBufferGeometry>
+      <instancedBufferGeometry index={index} attributes-position={position} attributes-uv={uv}>
         <planeGeometry args={[0.2, 0.2]} />
-        <instancedBufferAttribute attachObject={['attributes', 'instanceOffset']} args={[offsets, 3]} />
+        <instancedBufferAttribute attachObject={['attributes', 'instanceOffset']} args={[new Float32Array(offsets), 3]} />
+        <instancedBufferAttribute attachObject={['attributes', 'instanceOrientation']} args={[new Float32Array(orientations), 4]} />
       </instancedBufferGeometry>
       <meshStandardMaterial color="#556644" />
     </mesh>
@@ -76,7 +79,7 @@ export default function Grass({ options = { bW: 0.12, bH: 1, joints: 5 }, width 
   useFrame((state) => (materialRef.current.uniforms.time.value = state.clock.elapsedTime / 4))
   return (
     <group {...props}>
-      {/* <GrassPieceGround offsets={attributeData.offsets} /> */}
+      <GrassPieceGround index={baseGeom.index} position={baseGeom.attributes.position} offsets={attributeData.offsets} orientations={attributeData.orientations} uv={baseGeom.attributes.uv} />
       <mesh>
         <instancedBufferGeometry index={baseGeom.index} attributes-position={baseGeom.attributes.position} attributes-uv={baseGeom.attributes.uv}>
           <instancedBufferAttribute attach="attributes-offset" args={[new Float32Array(attributeData.offsets), 3]} />
