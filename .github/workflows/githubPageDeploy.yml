@@ -49,13 +49,16 @@ jobs:
         run: |
           sudo apt-get install git-lfs
           git lfs install
-
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: production-files
           path: ./dist
-
+          
+      - name: Track Git Large File
+        run: |
+          git lfs track "*.glb"
+          
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
