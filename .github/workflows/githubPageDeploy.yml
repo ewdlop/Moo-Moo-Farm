@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set up Git Large File Storage
+        run: |
+          sudo apt-get install git-lfs
+          git lfs install
+
       - name: Checkout repo with LFS support
         uses: actions/checkout@v2
         with:
@@ -40,6 +45,11 @@ jobs:
     if: github.ref == 'refs/heads/master'
 
     steps:
+      - name: Set up Git Large File Storage
+        run: |
+          sudo apt-get install git-lfs
+          git lfs install
+
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
