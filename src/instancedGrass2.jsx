@@ -4,8 +4,8 @@ import React, { useRef, useMemo, useLayoutEffect } from "react"
 import { createNoise2D } from 'simplex-noise';
 import { useFrame, useLoader } from "@react-three/fiber"
 //These have been taken from "Realistic real-time grass rendering" by Eddie Lee, 2010
-import bladeDiffuse from "/images/blade_diffuse.jpg"
-import bladeAlpha from "/images/blade_alpha.jpg"
+import bladeDiffuse from "./images/blade_diffuse.jpg"
+import bladeAlpha from "./images/blade_alpha.jpg"
 import "./GrassMaterial"
 import { extend } from '@react-three/fiber'
 
