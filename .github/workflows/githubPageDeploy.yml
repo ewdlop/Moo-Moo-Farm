@@ -11,8 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repo with LFS support
         uses: actions/checkout@v2
+        with:
+          lfs: true
 
       - name: Setup Node
         uses: actions/setup-node@v1
