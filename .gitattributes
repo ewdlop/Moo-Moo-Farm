@@ -1,2 +1,5 @@
 public/Cow.glb filter=lfs diff=lfs merge=lfs -text
 public/Cow.glb filter=lfs diff=lfs merge=lfs -text
+public/Cow.glb filter=lfs diff=lfs merge=lfs -text
+src/models/Cow.glb filter=lfs diff=lfs merge=lfs -text
+*.glb filter=lfs diff=lfs merge=lfs -text

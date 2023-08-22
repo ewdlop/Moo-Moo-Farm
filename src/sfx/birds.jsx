@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useLayoutEffect } from 'react';
 import { AudioListener, Audio, AudioLoader } from 'three';
+import Bird from '../assets/musics/Ambience_Place_Forest_Birds_Loop.wav'
 
 export default function Birds() {
   const listener = useRef(new AudioListener());
@@ -7,7 +8,7 @@ export default function Birds() {
 
   useLayoutEffect(() => {
     const loader = new AudioLoader();
-    loader.load('/musics/Ambience_Place_Forest_Birds_Loop.wav', (buffer) => {
+    loader.load(Bird, (buffer) => {
       sound.current.setBuffer(buffer);
       sound.current.setLoop(true);
       sound.current.setVolume(0.5);

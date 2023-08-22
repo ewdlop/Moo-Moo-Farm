@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Audio, AudioListener, AudioLoader } from 'three';
+import Cow from '../assets/musics/Cow_11.wav'
 
 export default function SoundComponent() {
   const listenerRef = useRef(null);
@@ -16,7 +17,7 @@ export default function SoundComponent() {
 
     // Load the audio file
     const audioLoader = new AudioLoader();
-    audioLoader.load('/musics/Cow_11.wav', (buffer) => {
+    audioLoader.load(Cow, (buffer) => {
       sound.setBuffer(buffer);
       sound.current.setVolume(0.5);
     });

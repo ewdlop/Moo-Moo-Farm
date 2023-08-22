@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useLayoutEffect } from 'react';
 import { AudioListener, Audio, AudioLoader } from 'three';
+import WindSFX from '../assets/musics/Ambience_Wind_Intensity_Soft_With_Leaves_Loop.wav';
 
 export default function Wind() {
   const listener = useRef(new AudioListener());
@@ -7,7 +8,7 @@ export default function Wind() {
 
   useLayoutEffect(() => {
     const loader = new AudioLoader();
-    loader.load('/musics/Ambience_Wind_Intensity_Soft_With_Leaves_Loop.wav', (buffer) => {
+    loader.load(WindSFX, (buffer) => {
       sound.current.setBuffer(buffer);
       sound.current.setLoop(true);
       sound.current.setVolume(1);
