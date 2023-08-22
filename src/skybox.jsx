@@ -6,12 +6,12 @@ const Skybox = () => {
   const texture = useLoader(
     CubeTextureLoader,
     [
-      '/path_to_images/px.jpg',
-      '/path_to_images/nx.jpg',
-      '/path_to_images/py.jpg',
-      '/path_to_images/ny.jpg',
-      '/path_to_images/pz.jpg',
-      '/path_to_images/nz.jpg'
+      '/images/Daylight_Box_Right.bmp',
+      '/images/Daylight_Box_Left.bmp',
+      '/images/Daylight_Box_Top.bmp',
+      '/images/Daylight_Box_Bottom.bmp',
+      '/images/Daylight_Box_Front.bmp',
+      '/images/Daylight_Box_Back.bmp'
     ]
   );
 
