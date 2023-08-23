@@ -30,7 +30,7 @@ createRoot(document.getElementById('root')).render(
         <Grass/>
       </Stage>
     </Suspense>
-    {/* <Skybox/> */}
+    <Skybox/>
     {/* <CameraShake
         maxYaw={0.1} // Max amount camera can yaw in either direction
         maxPitch={0.1} // Max amount camera can pitch in either direction

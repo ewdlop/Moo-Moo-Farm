@@ -5,7 +5,7 @@ import { draco } from "@gltf-transform/functions";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  assetsInclude: ['**/*.bmp'],
+  assetsInclude: ['**/*.png'],
   plugins: [react(), gltf({ functions: [draco({})] })],
   base: '/Moo-Moo-Farm/'
 })

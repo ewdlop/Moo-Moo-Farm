@@ -8,6 +8,4 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 # Moo Moo
-![alt text](Moo.png)
-![alt text](Moo2.png)
-![alt text](Moo3.png)
+![alt text](Moo4.png)

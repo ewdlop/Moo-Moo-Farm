@@ -19,7 +19,7 @@ const RainDrop = ({ count }) => {
     for (let i = 0; i < count; i++) {
       pos.push([
         Math.random() * 100 - 50,
-        Math.random() * 400 + 100,
+        Math.random() * 800 + 100,
         Math.random() * 100 - 50
       ]);
     }
