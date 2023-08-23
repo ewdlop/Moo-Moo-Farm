@@ -13,7 +13,7 @@ const noise2D = createNoise2D();
 
 function GroundMesh() {
   return (
-    <mesh position={[0, -5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+    <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
       <planeGeometry args={[100, 100, 32, 32]} />
       <meshStandardMaterial color="#556644" />
     </mesh>
@@ -79,7 +79,7 @@ export default function Grass({ options = { bW: 0.12, bH: 1, joints: 5 }, width 
   useFrame((state) => (materialRef.current.uniforms.time.value = state.clock.elapsedTime / 4))
   return (
     <group {...props}>
-      <GrassPieceGround index={baseGeom.index} position={baseGeom.attributes.position} offsets={attributeData.offsets} orientations={attributeData.orientations} uv={baseGeom.attributes.uv} />
+      {/* <GrassPieceGround index={baseGeom.index} position={baseGeom.attributes.position} offsets={attributeData.offsets} orientations={attributeData.orientations} uv={baseGeom.attributes.uv} /> */}
       <mesh>
         <instancedBufferGeometry index={baseGeom.index} attributes-position={baseGeom.attributes.position} attributes-uv={baseGeom.attributes.uv}>
           <instancedBufferAttribute attach="attributes-offset" args={[new Float32Array(attributeData.offsets), 3]} />
@@ -117,7 +117,7 @@ function getAttributeData(instances, width) {
     //Offset of the roots
     const offsetX = Math.random() * width - width / 2
     const offsetZ = Math.random() * width - width / 2
-    const offsetY = getYPosition(offsetX, offsetZ)
+    const offsetY = getYPosition2(offsetX, offsetZ)
     tempOffsets.push(offsetX, offsetY, offsetZ)
 
     //Define random growth directions
@@ -192,4 +192,8 @@ function getYPosition(x, z) {
   y += 4 * noise2D(x / 100, z / 100)
   y += 0.2 * noise2D(x / 10, z / 10)
   return y
+}
+
+function getYPosition2(x, z) {
+  return 0;
 }

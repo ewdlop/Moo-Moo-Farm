@@ -8,15 +8,17 @@ import Grass from  './instancedGrass2.jsx'
 import Music from './music/music.jsx'
 import Birds from './sfx/birds.jsx'
 import Wind from './sfx/wind.jsx'
+import Skybox from './skybox.jsx'
 import SoundComponent from './sfx/soundComponent.jsx'
+import Rain from './rainBulk.jsx'
 
 createRoot(document.getElementById('root')).render(
   <Canvas shadows style={{ width: '100%', height: '100vh' }}>
-    {/* <Skybox/> */}
     <Music/>
     <Birds/>
     <Wind/>
     <SoundComponent/>
+    <Rain count={1000}/>
     <FreeCamera position={[0, 1, 2]} />
     <OrbitControls />
     <ambientLight />
@@ -28,6 +30,7 @@ createRoot(document.getElementById('root')).render(
         <Grass/>
       </Stage>
     </Suspense>
+    <Skybox/>
     {/* <CameraShake
         maxYaw={0.1} // Max amount camera can yaw in either direction
         maxPitch={0.1} // Max amount camera can pitch in either direction

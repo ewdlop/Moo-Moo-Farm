@@ -1,30 +1,32 @@
 import React from 'react';
-import { useLoader } from '@react-three/fiber';
+import { useThree } from '@react-three/fiber';
 import { CubeTextureLoader } from 'three';
 
+// Importing the images
+import rightTexture from './images/Epic_BlueSunset_Cam_3_Right-X.png';
+import leftTexture from './images/Epic_BlueSunset_Cam_2_Left+X.png';
+import topTexture from './images/Epic_BlueSunset_Cam_4_Up+Y.png';
+import bottomTexture from './images/Epic_BlueSunset_Cam_5_Down-Y.png';
+import frontTexture from './images/Epic_BlueSunset_Cam_0_Front+Z.png';
+import backTexture from './images/Epic_BlueSunset_Cam_1_Back-Z.png';
+
 const Skybox = () => {
-  const texture = useLoader(
-    CubeTextureLoader,
+  const { scene } = useThree();
+  const loader = new CubeTextureLoader();
+  const texture = loader.load(
     [
-      '/images/Daylight_Box_Right.bmp',
-      '/images/Daylight_Box_Left.bmp',
-      '/images/Daylight_Box_Top.bmp',
-      '/images/Daylight_Box_Bottom.bmp',
-      '/images/Daylight_Box_Front.bmp',
-      '/images/Daylight_Box_Back.bmp'
+      frontTexture,
+      backTexture,
+      topTexture,
+      bottomTexture,
+      rightTexture,
+      leftTexture
     ]
   );
 
-  return (
-    <mesh>
-      <boxGeometry args={[1000, 1000, 1000]} />
-      <meshBasicMaterial 
-        attach="material"
-        envMap={texture}
-        side={3} // This ensures the inside of the box is visible
-      />
-    </mesh>
-  );
+  // Set the scene background property to the resulting texture.
+  scene.background = texture;
+  return null;
 };
 
 export default Skybox;
