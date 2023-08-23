@@ -1,5 +1,6 @@
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
+import * as THREE from 'three';
 
 const FreeCamera = (props) => {
     const cameraRef = useRef();
@@ -35,21 +36,31 @@ const FreeCamera = (props) => {
   }, []);
   
   useFrame(() => {
-      const speed = 0.1; // Adjust speed as needed
-  
-      if (keysPressed['ArrowUp'] || keysPressed['KeyW']) {
-        cameraRef.current.position.z -= speed;
-      }
-      if (keysPressed['ArrowDown'] || keysPressed['KeyS']) {
-        cameraRef.current.position.z += speed;
-      }
-      if (keysPressed['ArrowLeft'] || keysPressed['KeyA']) {
-        cameraRef.current.position.x -= speed;
-      }
-      if (keysPressed['ArrowRight'] || keysPressed['KeyD']) {
-        cameraRef.current.position.x += speed;
-      }
-  });
+    const speed = 0.3;
+
+    const forwardDirection = new THREE.Vector3();
+    const rightDirection = new THREE.Vector3();
+
+    cameraRef.current.getWorldDirection(forwardDirection);
+    forwardDirection.y = 0;  // Force the y component to be zero
+    forwardDirection.normalize();  // Re-normalize after modifying
+
+    rightDirection.crossVectors(forwardDirection, new THREE.Vector3(0, 1, 0)).normalize();
+
+    if (keysPressed['ArrowUp'] || keysPressed['KeyW']) {
+        cameraRef.current.position.addScaledVector(forwardDirection, speed); // Move forward
+    }
+    if (keysPressed['ArrowDown'] || keysPressed['KeyS']) {
+        cameraRef.current.position.addScaledVector(forwardDirection, -speed); // Move backward
+    }
+    if (keysPressed['ArrowLeft'] || keysPressed['KeyA']) {
+        cameraRef.current.position.addScaledVector(rightDirection, -speed); // Move left
+    }
+    if (keysPressed['ArrowRight'] || keysPressed['KeyD']) {
+        cameraRef.current.position.addScaledVector(rightDirection, speed); // Move right
+    }
+});
+
   
 
     return <perspectiveCamera ref={cameraRef} {...props} fov={100} />;

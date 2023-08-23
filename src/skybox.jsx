@@ -26,6 +26,7 @@ const Skybox = () => {
 
   // Set the scene background property to the resulting texture.
   scene.background = texture;
+  //scene.environment = texture;
   return null;
 };
 
