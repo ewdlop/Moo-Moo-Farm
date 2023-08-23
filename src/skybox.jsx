@@ -2,16 +2,24 @@ import React from 'react';
 import { useLoader } from '@react-three/fiber';
 import { CubeTextureLoader } from 'three';
 
+// Importing the images
+import rightTexture from './images/Daylight_Box_Right.bmp';
+import leftTexture from './images/Daylight_Box_Left.bmp';
+import topTexture from './images/Daylight_Box_Top.bmp';
+import bottomTexture from './images/Daylight_Box_Bottom.bmp';
+import frontTexture from './images/Daylight_Box_Front.bmp';
+import backTexture from './images/Daylight_Box_Back.bmp';
+
 const Skybox = () => {
   const texture = useLoader(
     CubeTextureLoader,
     [
-      '/images/Daylight_Box_Right.bmp',
-      '/images/Daylight_Box_Left.bmp',
-      '/images/Daylight_Box_Top.bmp',
-      '/images/Daylight_Box_Bottom.bmp',
-      '/images/Daylight_Box_Front.bmp',
-      '/images/Daylight_Box_Back.bmp'
+      rightTexture,
+      leftTexture,
+      topTexture,
+      bottomTexture,
+      frontTexture,
+      backTexture
     ]
   );
 
