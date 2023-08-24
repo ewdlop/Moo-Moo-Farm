@@ -35,7 +35,7 @@ const FreeCamera = (props) => {
       };
   }, []);
   
-  useFrame(() => {
+useFrame(() => {
     const speed = 0.3;
 
     const forwardDirection = new THREE.Vector3();
@@ -60,7 +60,6 @@ const FreeCamera = (props) => {
         cameraRef.current.position.addScaledVector(rightDirection, speed); // Move right
     }
 });
-
   
 
     return <perspectiveCamera ref={cameraRef} {...props} fov={100} />;
