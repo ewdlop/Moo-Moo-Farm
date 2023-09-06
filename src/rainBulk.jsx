@@ -2,9 +2,6 @@ import React, { useRef, useMemo } from 'react';
 import { useFrame} from '@react-three/fiber';
 import { MeshBasicMaterial, Vector3, CylinderGeometry,Matrix4 } from 'three';
 
-//doesnt work rip
-
-
 // Individual Raindrop
 const RainDrop = ({ count }) => {
   const mesh = useRef();
@@ -12,7 +9,9 @@ const RainDrop = ({ count }) => {
   const matrix = new Matrix4();
 
   const geometries = new CylinderGeometry(0.01, 0.01, 1, 4);
-  const material = new MeshBasicMaterial({ color: "blue" });
+  
+  // Set the raindrop material to be blue and half transparent
+  const material = new MeshBasicMaterial({ color: "blue", transparent: true, opacity: 0.5 });
 
   const positions = useMemo(() => {
     const pos = [];
