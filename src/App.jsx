@@ -38,8 +38,8 @@ export default function App() {
       <pointLight position={[10, 10, 10]} />
       <Suspense fallback={null}>
         <Stage>
-          <CowModel/>
-          <CowModel position={[1,0,1]}/>
+          {/* <CowModel/>
+          <CowModel position={[1,0,1]}/> */}
           <Grass/>
         </Stage>
       </Suspense>
