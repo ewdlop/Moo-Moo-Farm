@@ -15,3 +15,7 @@ Currently, two official plugins are available:
 # Orignial of Grass Shader
 
 https://codesandbox.io/p/sandbox/grass-shader-5xho4?file=%2Fpublic%2Findex.html
+
+# Purchased Model 
+https://www.turbosquid.com/3d-models/animal-collection-1775121
+https://www.turbosquid.com/turbosquid-license-tiers
